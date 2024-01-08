@@ -24,8 +24,8 @@ Cela limite le nombre de devise car entrer chaque devises et chaque taux de chan
 De plus le résultat attendu est forcément approximatif au vu du changement permanant des taux de change entre chaque devise.
 
 ### Utilisation modérée et précise avec de nombreuses devises
-Ce besoin nécessiterait le développement du crud pour les devises uniquement et les taux de change seraient requêtés sur une api proposant ce service.
-Cela permet d'entrer en base les devises souhaitées et de récupérer un taux précis et actuel des taux de changes entre les devises.
+Ce besoin nécessiterait le développement du crud pour les devises uniquement et les taux de change seraient requêtés sur une api proposant ce service, permettant ainsi la suppression de la table stockant précédemment les taux de change de manière fixe.
+Cela permet d'entrer en base les devises souhaitées et de récupérer un taux précis et actuel des taux de changes entre les devises. La table permettant de stocker les taux de change en brut peut donc être supprimer.
 Cependant ce service peut se limiter à un certain nombre de requête (gratuitement) selon les api.  
 Evolution plutôt rapide que j'ai développé sur la branche `feature_v2` de ce projet en dehors du temps imparti pour le test.
 
