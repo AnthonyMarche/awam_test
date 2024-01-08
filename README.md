@@ -1,66 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# AWAM TEST
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Presentation du test
 
-## About Laravel
+Pour réaliser ce test j'ai tout d'abord établi la manière dont j'allais procéder : stockage des taux de change, des devises, des calculs pour l'email et l'implémentations des méthodes.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+J'ai créé 3 tables pour stocker les devises, les taux de changes et les calculs effectués.
+Après chaque calcul le calcul est stocké puis récupéré pour chaque journée et envoyé par mail avec une commande. Il reste cependant à planifier la tache cron qui se chargera de l'exécuter. Ce mail est envoyé via SMTP qui fut la méthode la plus rapide au vu de mon installation PHP.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Les deux devises indiquées ainsi que leur taux de change (fixe) sont inscrites en base via les seeders.
+Lors de l'entrée des données par l'utilisateur celles-ci sont envoyé à un service qui se charge par la suite, via deux autres méthodes de convertir les montants indiqués dans la devise souhaité puis de faire le calcul approprié.
+Si les opérations se sont bien déroulées j'entre donc ce calcul et son résultat en base sous forme de texte, sinon une erreur est renvoyée.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Ce test a été réalisé en environ 2h30.
 
-## Learning Laravel
+## Evolution du test
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Avec plus de temps il est possible de continuer cette fonctionnalité de différentes manières selon le besoin client :
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Utilisation indicative avec peu de devises
+Selon ce besoin il serait envisageable de réaliser les crud des devises et des taux de change.
+Cela implique donc de rentrer manuellement les différentes devises souhaitées ainsi que leur taux de change envers les autres devises déjà en base.
+Cela limite le nombre de devise car entrer chaque devises et chaque taux de change parait assez chronophage.
+De plus le résultat attendu est forcément approximatif au vu du changement permanant des taux de change entre chaque devise.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Utilisation modérée et précise avec de nombreuses devises
+Ce besoin nécessiterait le développement du crud pour les devises uniquement et les taux de change seraient requêtés sur une api proposant ce service.
+Cela permet d'entrer en base les devises souhaitées et de récupérer un taux précis et actuel des taux de changes entre les devises.
+Cependant ce service peut se limiter à un certain nombre de requête (gratuitement) selon les api.  
+Evolution plutôt rapide que j'ai développé sur la branche `feature_v2` de ce projet en dehors du temps imparti pour le test.
 
-## Laravel Sponsors
+### Utilisation intensive et précise avec de nombreuses devises
+Ce besoin nécessiterait le développement d'une api récupérant pour chaque devise leur taux de change auprès de différents acteurs de ce sujet.
+Evolution plus pérenne mais je ne sais pas si cette solution est viable, que ce soit en terme de temps de développement ou de coût des données.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Enfin concernant l'historique des calculs effectués il serait envisageable de stocker non pas le texte représentant le calcul mais chaque élément le composant afin de réaliser des statistiques sur les devises utilisées par exemple.  
+Si ce besoin n'est pas nécessaire il pourrait être envisager, suite à l'envois de l'email récapitulatif, de supprimer les calculs de la base de données.
 
-### Premium Partners
+## Getting Started
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Install
 
-## Contributing
+1. Clone this project.
+2. Run `composer install`.
+3. Run `npm install`.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Environment variables
 
-## Code of Conduct
+In your .env file indicate the environment variables in particular:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+* DATABASE CREDENTIALS
+* MAIL CREDENTIALS
 
-## Security Vulnerabilities
+### Database
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Run `php artisan migrate`
+2. Run `php artisan db:seed`
 
-## License
+## Launch the application
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* Run `npm run build`
+* Run `php artisan serve`
