@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Models\Currency;
-use App\Models\ExchangeRate;
+use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 
 class ConverterService
@@ -23,9 +23,14 @@ class ConverterService
     // Convert current amount to final currency if needed
     public function convertCurrencyToResult(float $amount, Currency $amountCurrency, Currency $resultCurrency): float
     {
-        return $amountCurrency->id === $resultCurrency->id
-            ? $amount
-            : $amount * ExchangeRate::findRateByCurrencies($amountCurrency, $resultCurrency);
+        if ($amountCurrency->id === $resultCurrency->id) {
+            return $amount;
+        }
+
+        $url = "https://v6.exchangerate-api.com/v6/35d6ba576abf92be9d84dd4f/pair/$amountCurrency->code/$resultCurrency->code/$amount";
+        $response = Http::get($url)->json();
+
+        return $response['conversion_result'];
     }
 
     // Return result depend of operator or exception

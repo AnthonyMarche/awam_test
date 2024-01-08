@@ -1,6 +1,9 @@
 <div>
     <x-flash-message/>
-    <div class="flex flex-col justify-center items-center h-screen w-screen">
+    <div class="p-5 mb-28">
+    <a href="{{route('currency.index')}}">Gestion des devises</a>
+    </div>
+    <div class="flex flex-col justify-center items-center h-full w-screen">
         <form wire:submit.prevent="calculate" class="flex justify-center items-center flex-col space-y-8">
             <div class="flex">
                 <div class="flex flex-col">

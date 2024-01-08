@@ -9,8 +9,10 @@
 </head>
 <body>
 <div class="bg-gray-200 w-screen h-screen">
+    @include('components.flash-message')
     {{ $content }}
 </div>
+<script src="https://kit.fontawesome.com/cbfe0c4198.js" crossorigin="anonymous"></script>
 </body>
 </html>
 
